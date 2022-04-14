@@ -28,7 +28,7 @@ def main():
    
     Campo=Text(myframe,width="50",height="15",highlightthickness=2)
     Campo.place(x=90, y=70)
-    scroll= Scrollbar(myframe,width="50",height="15")
+    scroll= Scrollbar(myframe)
     scroll.place(x=90, y=70)
     scroll.config(command=Campo.yview)
     Campo.config(yscrollcommand=scroll.set)
