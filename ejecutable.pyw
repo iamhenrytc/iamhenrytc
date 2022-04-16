@@ -46,7 +46,7 @@ def main():
             allRecetas.write(f"{myrecetanueva.get()}\n")
             nuevodocument.add_paragraph(Campo.get(1.0,END+"-1c"))
             nuevodocument.save(f"{myrecetanueva.get()}.docx")
-            messagebox.showinfo(message="Receta GTuardada Exitosamente.", title="En hora buena")
+            messagebox.showinfo(message="Receta Guardada Exitosamente.", title="En hora buena")
             #Se procede a limpiar
             ButBuscador.config(state=NORMAL)
             Lupa.config(state=NORMAL)
@@ -54,6 +54,8 @@ def main():
             nuevoname.delete(0, 'end')
             nuevoname.config(state=DISABLED)
             Campo.delete("1.0","end")
+            Campo.insert('1.0', 'Igrese los ingredientes :\n \nIgrese la preparacion de la receta :\n \nIgrese recomendaciones si las habria : ')
+            Campo.config(state=DISABLED)
             ButGuardar.config(state=DISABLED)
             Butfoto.config(state=DISABLED)
     
