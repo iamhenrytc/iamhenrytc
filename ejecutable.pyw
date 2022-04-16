@@ -8,12 +8,16 @@ from docx import Document
 def main():
      
     #---------------------Funciones--------------------------------
+    #Estaria faltando el ingreso de imagenes y su respectivo mostrado de imagen.
     
     #Crear una nueva receta
     def NuevaReceta():
         ButBuscador.config(state=DISABLED)
         Butname.config(state=NORMAL)
         Lupa.config(state=DISABLED)
+        Campo.config(state=NORMAL)
+        Campo.delete("1.0","end")
+        Campo.config(state=DISABLED)
         nuevoname.config(state=NORMAL)
         nuevoname.delete(0, 'end')
         image =  messagebox.askquestion(message="¿Deseará agregar alguna imagen?", title="Importante")
@@ -61,26 +65,48 @@ def main():
             Butfoto.config(state=DISABLED)
     
     #Buscador de recetas
-
+    
     def Buscador():
         if myreceta.get() == "":
-            messagebox.showinfo(message="Ingrese algo!", title=":(")
-            
-        else:
+            option = messagebox.askquestion(message="Ingrese algo!\n¿Muestro lista de recetas?", title="Importante")
+            if option == "yes":
+                Campo.config(state=NORMAL)
+                Campo.delete("1.0","end")
+                datos = ""
+                contenido = open("ListaRecetas.txt","r")
+                for lineas in contenido:
+                    datos += lineas+"\n"
+                Campo.insert("1.0",f"{datos}") 
+                Campo.config(state=DISABLED)
 
+        else:
+            
             try: 
                 doc = Document(f'./recetas/{myreceta.get()}.docx')
+                Campo.config(state=NORMAL)
+                Campo.delete("1.0","end")
+                texto = ""
+                for paragraph in doc.paragraphs:
+                   texto += (paragraph.text+"\n")
+                
+                Campo.insert("1.0",f"{texto}") 
+                Campo.config(state=DISABLED)
             except:
-                messagebox.showinfo(message="No exite!", title=":(")
+                option2 = messagebox.askquestion(message="No existe!\n¿Muestro lista de recetas?", title="Importante")
+                Lupa.delete(0, 'end')
+                if option2 == "yes":
+                    Campo.config(state=NORMAL)
+                    Campo.delete("1.0","end")
+                    datos = ""
+                    contenido = open("ListaRecetas.txt","r")
+                    for lineas in contenido:
+                        datos += lineas+"\n"
+                    Campo.insert("1.0",f"{datos}") 
+                    Campo.config(state=DISABLED)
            
-            Campo.config(state=NORMAL)
-            Campo.delete("1.0","end")
             
-            for paragraph in doc.paragraphs:
-	            print(paragraph.text) # Falta mostrar en el campo 
 
     #---------------------Ventana y componentes-----------------------------------
-
     ventana = Tk()
     ventana.title('Las Recetas')
     ventana.configure(bg = "sky blue")
