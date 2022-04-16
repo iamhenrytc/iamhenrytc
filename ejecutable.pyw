@@ -1,3 +1,4 @@
+from ast import Try
 from faulthandler import disable
 from os import stat
 from tkinter import *
@@ -45,7 +46,7 @@ def main():
             allRecetas = open("ListaRecetas.txt","a")
             allRecetas.write(f"{myrecetanueva.get()}\n")
             nuevodocument.add_paragraph(Campo.get(1.0,END+"-1c"))
-            nuevodocument.save(f"{myrecetanueva.get()}.docx")
+            nuevodocument.save(f"./recetas/{myrecetanueva.get()}.docx")
             messagebox.showinfo(message="Receta Guardada Exitosamente.", title="En hora buena")
             #Se procede a limpiar
             ButBuscador.config(state=NORMAL)
@@ -60,9 +61,23 @@ def main():
             Butfoto.config(state=DISABLED)
     
     #Buscador de recetas
-    #def Buscador():
 
+    def Buscador():
+        if myreceta.get() == "":
+            messagebox.showinfo(message="Ingrese algo!", title=":(")
+            
+        else:
 
+            try: 
+                doc = Document(f'./recetas/{myreceta.get()}.docx')
+            except:
+                messagebox.showinfo(message="No exite!", title=":(")
+           
+            Campo.config(state=NORMAL)
+            Campo.delete("1.0","end")
+            
+            for paragraph in doc.paragraphs:
+	            print(paragraph.text) # Falta mostrar en el campo 
 
     #---------------------Ventana y componentes-----------------------------------
 
