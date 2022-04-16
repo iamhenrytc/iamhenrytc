@@ -49,6 +49,7 @@ def main():
         else:
             allRecetas = open("ListaRecetas.txt","a")
             allRecetas.write(f"{myrecetanueva.get()}\n")
+            allRecetas.close()
             nuevodocument.add_paragraph(Campo.get(1.0,END+"-1c"))
             nuevodocument.save(f"./recetas/{myrecetanueva.get()}.docx")
             messagebox.showinfo(message="Receta Guardada Exitosamente.", title="En hora buena")
@@ -65,10 +66,9 @@ def main():
             Butfoto.config(state=DISABLED)
     
     #Buscador de recetas
-    
-    def Buscador():
-        if myreceta.get() == "":
-            option = messagebox.askquestion(message="Ingrese algo!\n¿Muestro lista de recetas?", title="Importante")
+
+    def Mostrandolista(opt):
+            option=opt
             if option == "yes":
                 Campo.config(state=NORMAL)
                 Campo.delete("1.0","end")
@@ -76,8 +76,14 @@ def main():
                 contenido = open("ListaRecetas.txt","r")
                 for lineas in contenido:
                     datos += lineas+"\n"
+                contenido.close()
                 Campo.insert("1.0",f"{datos}") 
                 Campo.config(state=DISABLED)
+
+    def Buscador():
+        if myreceta.get() == "":
+            opt = messagebox.askquestion(message="Ingrese algo!\n¿Muestro lista de recetas?", title="Importante")
+            Mostrandolista(opt)
 
         else:
             
@@ -91,18 +97,11 @@ def main():
                 
                 Campo.insert("1.0",f"{texto}") 
                 Campo.config(state=DISABLED)
-            except:
-                option2 = messagebox.askquestion(message="No existe!\n¿Muestro lista de recetas?", title="Importante")
                 Lupa.delete(0, 'end')
-                if option2 == "yes":
-                    Campo.config(state=NORMAL)
-                    Campo.delete("1.0","end")
-                    datos = ""
-                    contenido = open("ListaRecetas.txt","r")
-                    for lineas in contenido:
-                        datos += lineas+"\n"
-                    Campo.insert("1.0",f"{datos}") 
-                    Campo.config(state=DISABLED)
+            except:
+                opt = messagebox.askquestion(message="No existe!\n¿Muestro lista de recetas?", title="Importante")
+                Lupa.delete(0, 'end')
+                Mostrandolista(opt)
            
             
 
